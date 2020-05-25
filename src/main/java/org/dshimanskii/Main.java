@@ -21,14 +21,17 @@ public class Main {
                 String originalExpressionModified;
 
             try {
-                do {
+                while (true) {
                     //request for input
-                    System.out.println("please specify the expression you'd like to evaluate");
+                    System.out.println("please specify the expression you'd like to evaluate. Do not omit multiplication sign * ");
                     originalExpressionModified = sc.nextLine();
+
+                    if (validator.validateNotEmpty(originalExpressionModified)
+                            && validator.validateNoDoubleSlash(originalExpressionModified)
+                    && validator.validateAllDigitsAre16bits(originalExpressionModified))
+                        //TODO basic validation that only math signs, digits and char.digit pattern is used
+                        break;
                 }
-                while (validator.validateAllDigitsAre16bits(originalExpressionModified) && validator.validateNotEmpty(originalExpressionModified))
-                    //TODO basic validation that only math signs, digits and char.digit pattern is used
-                        ;
 
                 System.out.println("OK");
 
@@ -39,10 +42,19 @@ public class Main {
                     String line = sc.nextLine();
                     if (line.equals("calculate")) {
                         break;
+                    } if (line.equals("c")) { //TODO - remove when sending, for quick debugging only
+                        break;
                     }
 
-                    variables.put(line.split("=")[0].trim(), line.split("=")[1].trim());
-                    System.out.println("OK");
+                    //TODO 2 verification - that there is integer after =
+                    //TODO 3 verification - that there is a variable before = .
+                    try{
+                        variables.put(line.split("=")[0].trim(), line.split("=")[1].trim());
+                        System.out.println("OK");
+                    } catch ( ArrayIndexOutOfBoundsException e){
+                        System.out.println(" variables input should have format like x = 1 . Equals sign is missing");
+                    }
+
                     //System.out.println("OK, variable received");
                 }
 
@@ -67,6 +79,7 @@ public class Main {
                 break; //If you want the programm to receive expressions indefinetly, not once per run, remove this line
 
             } catch (ScriptException e) {
+                System.out.println(e.toString());
                 System.out.println("incorrect math expression, try again . The cause of the problem is " + e);
                 continue;
             }
