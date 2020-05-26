@@ -28,7 +28,8 @@ public class Main {
 
                     if (validator.validateNotEmpty(originalExpressionModified)
                             && validator.validateNoDoubleSlash(originalExpressionModified)
-                    && validator.validateAllDigitsAre16bits(originalExpressionModified))
+                    && validator.validateAllDigitsAre16bits(originalExpressionModified)
+                    && validator.validateMathExpression(originalExpressionModified))
                         //TODO basic validation that only math signs, digits and char.digit pattern is used
                         break;
                 }

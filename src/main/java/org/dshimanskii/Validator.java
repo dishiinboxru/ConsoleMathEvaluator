@@ -1,5 +1,8 @@
 package org.dshimanskii;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Validator {
 
     public Validator() {
@@ -43,13 +46,17 @@ public class Validator {
         return true;
     }
 
-//    public boolean validateMathExpression (String input ){
-//        //TODO 26-05
-//        String text = "abc";
-//        String number;
-//
-//        if (Pattern.matches("[a-zA-Z]+", text) == false && text.length() > 2) {
-//            number = text;
-//        }
-//    }
+    public boolean validateMathExpression (String input ){
+
+        String patternString = "([^0-9()\\-+\\/\\s\\*\\w])|([a-zA-Z]{2,})";
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        if(matcher.find()) {
+            System.out.println("Looks like you got words or special characters there, try entering without them");
+            return false;
+        }
+        return true;
+    }
 }
